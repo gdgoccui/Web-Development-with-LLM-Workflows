@@ -18,7 +18,6 @@ const userSchema = new Schema ({
     address: {
         type: String,
         require: true,
-        unique: true,
     },
     dob: {
         type: String,
