@@ -23,6 +23,6 @@ router.post("/logout", verifyJWT, logoutUser);
 router.delete("/delete", verifyJWT, deleteUser);
 router.put("/update-password", verifyJWT, updatePassword);
 router.put("/update-username", verifyJWT, updateUsername);
-router.put("/get-user", verifyJWT, getCurrentUser);
+router.get("/get-user", verifyJWT, getCurrentUser);
 
 export default router;
