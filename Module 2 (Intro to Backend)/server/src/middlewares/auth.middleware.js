@@ -7,6 +7,7 @@ const verifyJWT = asyncHanlder (async (req, res, next) => {
     try {
         
         const token = await req.cookies?.accessToken || req.header("Authorization")?.replace("Bearer ", "");
+        
 
         if(!token) {
             throw new ApiError(400, "token hai he nahi");

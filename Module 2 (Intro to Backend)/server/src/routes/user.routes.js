@@ -17,10 +17,12 @@ const router = express.Router();
 
 router.post("/signup", registerUser);
 router.post("/login", loginUser);
+
+// app.use(verifyJWT);
 router.post("/logout", verifyJWT, logoutUser);
-router.delete("/delete", deleteUser);
+router.delete("/delete", verifyJWT, deleteUser);
 router.put("/update-password", verifyJWT, updatePassword);
-router.put("/update-username", updateUsername);
-router.put("/get-user", getCurrentUser);
+router.put("/update-username", verifyJWT, updateUsername);
+router.put("/get-user", verifyJWT, getCurrentUser);
 
 export default router;

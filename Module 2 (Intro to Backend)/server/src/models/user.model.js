@@ -46,7 +46,7 @@ const userSchema = new Schema ({
     }
 }, {timestamps: true});
 
-userSchema.pre("save", async function () {
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
         return next();
     };
@@ -62,7 +62,7 @@ userSchema.methods.generateAccessToken = function () {
         email: this.email,
     }, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    } )
+    })
 };
 
 userSchema.methods.generateRefreshToken = function () {

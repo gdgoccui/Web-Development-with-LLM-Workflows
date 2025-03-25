@@ -2,21 +2,24 @@ import User from "../models/user.model.js";
 import ApiError from "../utils/ApiError.js";
 import ApiResponse from "../utils/ApiResponse.js";
 import asyncHanlder from "../utils/asyncHandler.js";
+import bcrypt from "bcryptjs"
 
 // functin for generating tokens
 const generateAccessTokenAndRefreshToken = async (userId) => {
     try {
         
         const myUser = await User.findById(userId);
+        // console.log(myUser);
 
         const accessToken = myUser.generateAccessToken();
         const refreshToken = myUser.generateRefreshToken();
+        // console.log(accessToken);
+        // console.log(refreshToken);
 
         myUser.refreshToken = refreshToken;
         await myUser.save({validateBeforeSave: false});
 
         return {accessToken, refreshToken};
-
 
     } catch (error) {
         throw new ApiError(500, "token can't be generated");
@@ -68,12 +71,17 @@ const loginUser = asyncHanlder( async (req, res, next) => {
     }
 
     const user = await User.findOne({email});
+    // console.log(user);
 
     if (!user || ! (await bcrypt.compare(password, user.password))) {
         throw new ApiError(400, "user not find or wrong password");
     }
 
+    console.log(user._id);
+
     const {accessToken, refreshToken} = generateAccessTokenAndRefreshToken(user._id);
+    console.log(accessToken);
+    console.log(refreshToken);
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
     const options = {
@@ -83,7 +91,7 @@ const loginUser = asyncHanlder( async (req, res, next) => {
 
     return res
     .status(200)
-    .cookie("accesstoken", accessToken, options)
+    .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
         new ApiResponse(200, {
