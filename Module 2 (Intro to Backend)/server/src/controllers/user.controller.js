@@ -1,7 +1,7 @@
-import User from "../models/user.model";
-import ApiError from "../utils/ApiError";
-import ApiResponse from "../utils/ApiResponse";
-import asyncHanlder from "../utils/asyncHandler";
+import User from "../models/user.model.js";
+import ApiError from "../utils/ApiError.js";
+import ApiResponse from "../utils/ApiResponse.js";
+import asyncHanlder from "../utils/asyncHandler.js";
 
 // functin for generating tokens
 const generateAccessTokenAndRefreshToken = async (userId) => {
@@ -153,7 +153,7 @@ const updatePassword = asyncHanlder (async (req, res, next) => {
 });
 
 // updateUsername
-const updateUsernam = asyncHanlder ( async (req, res, next) => {
+const updateUsername = asyncHanlder ( async (req, res, next) => {
     const {username} = req.body;
 
     if (!username) {
@@ -169,6 +169,25 @@ const updateUsernam = asyncHanlder ( async (req, res, next) => {
         new ApiResponse(200, req.user, "Username has been updated.")
     )
 });
+
+// getCurrUser
+const getCurrentUser = asyncHanlder(  async (req, res, next) => {
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, req.user, "User details fetched successfully.")
+    )
+})
+
+export {
+    registerUser,
+    loginUser,
+    logoutUser,
+    deleteUser,
+    updatePassword,
+    updateUsername,
+    getCurrentUser,
+}
 
 
 

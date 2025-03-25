@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import userRouter from "./routes/user.routes.js"
 
 const app = express();
 
@@ -11,5 +12,8 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: true})); //nested objects allowed
+
+// api route
+app.use("/api/user", userRouter)
 
 export default app;

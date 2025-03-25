@@ -1,5 +1,5 @@
-import ApiError from "../utils/ApiError";
-import asyncHanlder from "../utils/asyncHandler";
+import ApiError from "../utils/ApiError.js";
+import asyncHanlder from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
 import User from "../models/user.model.js";
 
@@ -27,3 +27,5 @@ const verifyJWT = asyncHanlder (async (req, res, next) => {
         throw new ApiError(400, error?.message || "Ghalat token bhaija hai ap nay.");
     }
 })
+
+export default verifyJWT;
