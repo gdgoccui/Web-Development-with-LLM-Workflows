@@ -11,10 +11,10 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
         const myUser = await User.findById(userId);
         // console.log(myUser);
 
-        const accessToken = myUser.generateAccessToken();
-        const refreshToken = myUser.generateRefreshToken();
-        console.log(accessToken);
-        console.log(refreshToken);
+        const accessToken = await myUser.generateAccessToken();
+        const refreshToken = await myUser.generateRefreshToken();
+        // console.log(accessToken);
+        // console.log(refreshToken);
 
         myUser.refreshToken = refreshToken;
         await myUser.save({validateBeforeSave: false});
@@ -77,11 +77,11 @@ const loginUser = asyncHanlder( async (req, res, next) => {
         throw new ApiError(400, "user not find or wrong password");
     }
 
-    console.log(user._id);
+    // console.log(user._id);
 
-    const {accessToken, refreshToken} = generateAccessTokenAndRefreshToken(user._id);
-    console.log(accessToken);
-    console.log(refreshToken);
+    const {accessToken, refreshToken} = await generateAccessTokenAndRefreshToken(user._id);
+    // console.log(accessToken);
+    // console.log(refreshToken);
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken");
 
     const options = {
